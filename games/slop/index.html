@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astro Roll</title>
+<style>
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:#080d19;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+}
+
+header { padding:15px; }
+
+h1 { color:#8b9cff; }
+
+canvas {
+  display:block;
+  width:min(95vw,700px);
+  height:auto;
+  margin:auto;
+  border:2px solid #667bff;
+  border-radius:14px;
+  background:#101a2c;
+  touch-action:none;
+}
+
+button {
+  padding:13px 22px;
+  margin:8px;
+  border:0;
+  border-radius:9px;
+  background:#667bff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#controls {
+  margin:15px;
+}
+
+#score {
+  font-size:22px;
+  color:#8b9cff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🚀 ASTRO ROLL</h1>
+<p>Dodge obstacles. Survive. Beat your score.</p>
+<div id="score">Score: 0</div>
+</header>
+
+<canvas id="game" width="700" height="450"></canvas>
+
+<div id="controls">
+<button id="left">⬅ LEFT</button>
+<button id="start">START / RESTART</button>
+<button id="right">RIGHT ➡</button>
+</div>
+
+<p>Use arrow keys, A/D, or the buttons.</p>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const scoreText = document.getElementById("score");
+
+let ball, obstacles, score, running, gameOver;
+let keys = {};
+let animation;
+
+function reset() {
+  ball = {x:350,y:350,r:13};
+  obstacles = [];
+  score = 0;
+  running = true;
+  gameOver = false;
+  scoreText.textContent = "Score: 0";
+  cancelAnimationFrame(animation);
+  draw();
+  loop();
+}
+
+function draw() {
+  ctx.clearRect(0,0,700,450);
+
+  // Space background
+  ctx.fillStyle = "#101a2c";
+  ctx.fillRect(0,0,700,450);
+
+  // Stars
+  ctx.fillStyle = "#ffffff";
+  for(let i=0;i<45;i++){
+    let x=(i*137)%700;
+    let y=(i*83)%450;
+    ctx.fillRect(x,y,2,2);
+  }
+
+  // Track
+  ctx.fillStyle="#26385b";
+  ctx.beginPath();
+  ctx.moveTo(210,0);
+  ctx.lineTo(490,0);
+  ctx.lineTo(650,450);
+  ctx.lineTo(50,450);
+  ctx.closePath();
+  ctx.fill();
+
+  // Track edges
+  ctx.strokeStyle="#718dff";
+  ctx.lineWidth=4;
+  ctx.stroke();
+
+  // Obstacles
+  obstacles.forEach(o=>{
+    ctx.fillStyle="#ff477e";
+    ctx.fillRect(o.x,o.y,o.w,o.h);
+    ctx.shadowColor="#ff477e";
+    ctx.shadowBlur=12;
+    ctx.fillRect(o.x,o.y,o.w,o.h);
+    ctx.shadowBlur=0;
+  });
+
+  // Ball
+  ctx.fillStyle="#62eaff";
+  ctx.shadowColor="#62eaff";
+  ctx.shadowBlur=20;
+  ctx.beginPath();
+  ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);
+  ctx.fill();
+  ctx.shadowBlur=0;
+
+  if(!running){
+    ctx.fillStyle="white";
+    ctx.font="bold 34px Arial";
+    ctx.textAlign="center";
+    ctx.fillText("GAME OVER",350,205);
+    ctx.font="18px Arial";
+    ctx.fillText("Press START to play again",350,240);
+  }
+}
+
+function loop(){
+  if(!running) return;
+
+  if(keys.ArrowLeft || keys.a || keys.A) ball.x-=5;
+  if(keys.ArrowRight || keys.d || keys.D) ball.x+=5;
+
+  ball.x=Math.max(225,Math.min(475,ball.x));
+
+  if(Math.random()<0.025){
+    let x=250+Math.random()*200;
+    obstacles.push({x,y:-30,w:30,h:25});
+  }
+
+  obstacles.forEach(o=>o.y+=3+score/100);
+
+  obstacles=obstacles.filter(o=>o.y<470);
+
+  obstacles.forEach(o=>{
+    if(
+      ball.x+ball.r>o.x &&
+      ball.x-ball.r<o.x+o.w &&
+      ball.y+ball.r>o.y &&
+      ball.y-ball.r<o.y+o.h
+    ){
+      running=false;
+      gameOver=true;
+    }
+  });
+
+  score++;
+  scoreText.textContent="Score: "+score;
+
+  draw();
+  animation=requestAnimationFrame(loop);
+}
+
+document.addEventListener("keydown",e=>{
+  keys[e.key]=true;
+});
+
+document.addEventListener("keyup",e=>{
+  keys[e.key]=false;
+});
+
+function hold(button,key){
+  const el=document.getElementById(button);
+  el.addEventListener("pointerdown",e=>{
+    e.preventDefault();
+    keys[key]=true;
+  });
+  ["pointerup","pointerleave","pointercancel"].forEach(event=>{
+    el.addEventListener(event,()=>keys[key]=false);
+  });
+}
+
+hold("left","ArrowLeft");
+hold("right","ArrowRight");
+
+document.getElementById("start").onclick=reset;
+
+draw();
+</script>
+</body>
+</html>
