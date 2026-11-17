@@ -24,10 +24,24 @@
       <a class="play-button" href="#games">Explore Games</a>
     </section>
 
-    <section id="games">
-      <h2>Featured Games</h2>
-      <div class="game-grid" id="gameGrid"></div>
-    </section>
+     <section id="games">
+  <h2>🎮 Game Library</h2>
+
+  <input
+    type="text"
+    id="gameSearch"
+    placeholder="Search games..."
+  >
+
+  <div class="categories">
+    <button onclick="filterGames('All')">All</button>
+    <button onclick="filterGames('Arcade')">Arcade</button>
+    <button onclick="filterGames('Puzzle')">Puzzle</button>
+    <button onclick="filterGames('Adventure')">Adventure</button>
+  </div>
+
+  <div class="game-grid" id="gameGrid"></div>
+</section>
 
     <section id="about">
       <h2>About Astro Hub</h2>
