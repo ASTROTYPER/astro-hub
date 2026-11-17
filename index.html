@@ -42,6 +42,21 @@
 
   <div class="game-grid" id="gameGrid"></div>
 </section>
+    <section id="gamePlayer" hidden>
+  <h2 id="playerTitle">Now Playing</h2>
+
+  <button onclick="closeGame()">← Back to Games</button>
+
+  <button onclick="fullscreenGame()">⛶ Fullscreen</button>
+
+  <iframe
+    id="gameFrame"
+    src=""
+    title="Astro Hub Game"
+    allow="fullscreen; gamepad"
+    allowfullscreen
+  ></iframe>
+</section>
 
     <section id="about">
       <h2>About Astro Hub</h2>
