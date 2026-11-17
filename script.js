@@ -13,6 +13,11 @@ const games = [
     name: "Astro Quest",
     category: "Adventure",
     image: "https://placehold.co/400x220/164e63/ffffff?text=Astro+Quest"
+  },
+   {
+    name: "Slope",
+    category: "infinite",
+    image: "https://play.google.com/store/apps/details?id=com.y8.slope"
   }
 ];
 
