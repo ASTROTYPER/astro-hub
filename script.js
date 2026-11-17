@@ -57,6 +57,37 @@ gameSearch.addEventListener("input", () => {
     games.filter(game =>
       game.name.toLowerCase().includes(search) ||
       game.category.toLowerCase().includes(search)
+                 function openGame(game) {
+  const player = document.getElementById("gamePlayer");
+  const frame = document.getElementById("gameFrame");
+
+  document.getElementById("playerTitle").textContent =
+    "Playing: " + game.name;
+
+  frame.src = game.link;
+  player.hidden = false;
+
+  player.scrollIntoView({ behavior: "smooth" });
+}
+
+function closeGame() {
+  const frame = document.getElementById("gameFrame");
+
+  frame.src = "";
+  document.getElementById("gamePlayer").hidden = true;
+
+  document.getElementById("games").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function fullscreenGame() {
+  const frame = document.getElementById("gameFrame");
+
+  if (frame.requestFullscreen) {
+    frame.requestFullscreen();
+  }
+}
     )
   );
 });
