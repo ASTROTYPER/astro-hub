@@ -70,3 +70,52 @@ footer {
   padding: 25px;
   color: #8794ad;
 }
+
+
+#gameSearch {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #344566;
+  background: #151f33;
+  color: white;
+  margin: 15px 0;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 15px 0 25px;
+}
+
+.categories button,
+.game-card button {
+  background: #667bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
+.game-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.game-card p {
+  color: #aab8d4;
+}
+
+.game-card button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+
+
+
+
+
