@@ -1,16 +1,5 @@
 const games = [
-  {
-    name: "Space Runner",
-    category: "Arcade",
-    image: "https://placehold.co/400x220/172554/ffffff?text=Space+Runner",
-    link: null
-  },
-  {
-    name: "Galaxy Puzzle",
-    category: "Puzzle",
-    image: "https://placehold.co/400x220/312e81/ffffff?text=Galaxy+Puzzle",
-    link: null
-  },
+  
   {
     name: "Retro Bowl",
     category: "Arcade",
