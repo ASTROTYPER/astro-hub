@@ -19,7 +19,7 @@ const games = [
     name: "Retro Bowl",
     category: "Adventure",
     image: "https://placehold.co/400x220/164e63/ffffff?text=Astro+Quest"
-    link:  "games/All games/retrobwl.html
+    link:  "games/All games/retrobwl.html"
   }
 ];
 
