@@ -14,11 +14,15 @@ const games = [
     category: "Adventure",
     image: "https://placehold.co/400x220/164e63/ffffff?text=Astro+Quest"
   },
-   {
-    name: "Slope",
-    category: "infinite",
-    image: "https://play.google.com/store/apps/details?id=com.y8.slope"
-  }
+
+  
+  {
+  name: "Slope",
+  category: "Arcade",
+  image: "https://www.y8.com/games/slope",
+  link: "https://y8.com/embed/slope"
+}
+
 ];
 
 const gameGrid = document.getElementById("gameGrid");
