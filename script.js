@@ -1,25 +1,21 @@
 const games = [
   {
-    name: "Slope",
-    category: "Arcade",
-    image: "https://placehold.co/400x220/172554/ffffff?text=SLOPE",
-    link: "https://y8.com/embed/slope"
-  },
-  {
     name: "Space Runner",
     category: "Arcade",
-    image: "https://placehold.co/400x220/172554/ffffff?text=Space+Runner"
+    image: "https://placehold.co/400x220/172554/ffffff?text=Space+Runner",
+    link: null
   },
   {
     name: "Galaxy Puzzle",
     category: "Puzzle",
-    image: "https://placehold.co/400x220/312e81/ffffff?text=Galaxy+Puzzle"
+    image: "https://placehold.co/400x220/312e81/ffffff?text=Galaxy+Puzzle",
+    link: null
   },
   {
     name: "Retro Bowl",
-    category: "Adventure",
-    image: "https://placehold.co/400x220/164e63/ffffff?text=Astro+Quest"
-    link:  "games/All games/retrobwl.html"
+    category: "Arcade",
+    image: "https://placehold.co/400x220/164e63/ffffff?text=Retro+Bowl",
+    link: "games/2018/retrobwl.html"
   }
 ];
 
@@ -29,7 +25,14 @@ const gameSearch = document.getElementById("gameSearch");
 let activeCategory = "All";
 
 function displayGames(list) {
+  if (!gameGrid) return;
+
   gameGrid.innerHTML = "";
+
+  if (list.length === 0) {
+    gameGrid.textContent = "No games found.";
+    return;
+  }
 
   list.forEach(game => {
     const card = document.createElement("div");
@@ -66,7 +69,7 @@ function filterGames(category) {
 }
 
 function updateGames() {
-  const search = gameSearch.value.toLowerCase();
+  const search = gameSearch.value.toLowerCase().trim();
 
   const filtered = games.filter(game => {
     const matchesCategory =
@@ -86,6 +89,8 @@ function updateGames() {
 gameSearch.addEventListener("input", updateGames);
 
 function openGame(game) {
+  if (!game.link) return;
+
   const player = document.getElementById("gamePlayer");
   const frame = document.getElementById("gameFrame");
 
