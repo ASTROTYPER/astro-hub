@@ -15,7 +15,7 @@ const games = [
     name: "Retro Bowl",
     category: "Arcade",
     image: "https://placehold.co/400x220/164e63/ffffff?text=Retro+Bowl",
-    link: "games/2018/retrobwl.html"
+    link: "games/All%20games/retrobwl.html"
   }
 ];
 
