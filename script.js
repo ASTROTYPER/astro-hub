@@ -1,5 +1,11 @@
 const games = [
   {
+    name: "Slope",
+    category: "Arcade",
+    image: "https://placehold.co/400x220/172554/ffffff?text=SLOPE",
+    link: "https://y8.com/embed/slope"
+  },
+  {
     name: "Space Runner",
     category: "Arcade",
     image: "https://placehold.co/400x220/172554/ffffff?text=Space+Runner"
@@ -13,20 +19,13 @@ const games = [
     name: "Astro Quest",
     category: "Adventure",
     image: "https://placehold.co/400x220/164e63/ffffff?text=Astro+Quest"
-  },
-
-  
-  {
-  name: "Slope",
-  category: "Arcade",
-  image: "https://www.y8.com/games/slope",
-  link: "https://y8.com/embed/slope"
-}
-
+  }
 ];
 
 const gameGrid = document.getElementById("gameGrid");
 const gameSearch = document.getElementById("gameSearch");
+
+let activeCategory = "All";
 
 function displayGames(list) {
   gameGrid.innerHTML = "";
@@ -35,33 +34,57 @@ function displayGames(list) {
     const card = document.createElement("div");
     card.className = "game-card";
 
-    card.innerHTML = `
-      <img src="${game.image}" alt="${game.name}">
-      <h3>${game.name}</h3>
-      <p>${game.category}</p>
-      <button disabled>Coming Soon</button>
-    `;
+    const img = document.createElement("img");
+    img.src = game.image;
+    img.alt = game.name;
 
+    const title = document.createElement("h3");
+    title.textContent = game.name;
+
+    const category = document.createElement("p");
+    category.textContent = game.category;
+
+    const button = document.createElement("button");
+
+    if (game.link) {
+      button.textContent = "Play";
+      button.onclick = () => openGame(game);
+    } else {
+      button.textContent = "Coming Soon";
+      button.disabled = true;
+    }
+
+    card.append(img, title, category, button);
     gameGrid.appendChild(card);
   });
 }
 
 function filterGames(category) {
-  const filtered = category === "All"
-    ? games
-    : games.filter(game => game.category === category);
+  activeCategory = category;
+  updateGames();
+}
+
+function updateGames() {
+  const search = gameSearch.value.toLowerCase();
+
+  const filtered = games.filter(game => {
+    const matchesCategory =
+      activeCategory === "All" ||
+      game.category === activeCategory;
+
+    const matchesSearch =
+      game.name.toLowerCase().includes(search) ||
+      game.category.toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+  });
 
   displayGames(filtered);
 }
 
-gameSearch.addEventListener("input", () => {
-  const search = gameSearch.value.toLowerCase();
+gameSearch.addEventListener("input", updateGames);
 
-  displayGames(
-    games.filter(game =>
-      game.name.toLowerCase().includes(search) ||
-      game.category.toLowerCase().includes(search)
-                 function openGame(game) {
+function openGame(game) {
   const player = document.getElementById("gamePlayer");
   const frame = document.getElementById("gameFrame");
 
@@ -70,16 +93,12 @@ gameSearch.addEventListener("input", () => {
 
   frame.src = game.link;
   player.hidden = false;
-
   player.scrollIntoView({ behavior: "smooth" });
 }
 
 function closeGame() {
-  const frame = document.getElementById("gameFrame");
-
-  frame.src = "";
+  document.getElementById("gameFrame").src = "";
   document.getElementById("gamePlayer").hidden = true;
-
   document.getElementById("games").scrollIntoView({
     behavior: "smooth"
   });
@@ -92,8 +111,5 @@ function fullscreenGame() {
     frame.requestFullscreen();
   }
 }
-    )
-  );
-});
 
 displayGames(games);
